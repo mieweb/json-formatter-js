@@ -28,6 +28,7 @@ export interface JSONFormatterConfiguration {
   theme?: string;
   useToJSON?: boolean;
   sortPropertiesBy?: (a: string, b: string) => number;
+  onToggle?: (isOpen: boolean) => void;
 };
 
 const _defaultConfig: JSONFormatterConfiguration = {
@@ -38,7 +39,8 @@ const _defaultConfig: JSONFormatterConfiguration = {
   animateClose: true,
   theme: null,
   useToJSON: true,
-  sortPropertiesBy: null
+  sortPropertiesBy: null,
+  onToggle: null
 };
 
 
@@ -223,6 +225,10 @@ export default class JSONFormatter {
   */
   toggleOpen() {
     this.isOpen = !this.isOpen;
+
+    if (this.config.onToggle) {
+      this.config.onToggle(this.isOpen);
+    }
 
     if (this.element) {
       if (this.isOpen) {
